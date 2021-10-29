@@ -20,7 +20,7 @@ public class Pizza {
     @Column(unique = true, nullable = false)
     private String sabor;
 
-    private BigDecimal preco;
+    private BigDecimal preco = BigDecimal.ZERO;
 
     @ManyToMany
     private List<Ingrediente> ingredientes = new ArrayList<>();
@@ -52,6 +52,10 @@ public class Pizza {
 
     public BigDecimal getPreco() {
         return preco;
+    }
+    
+    public List<Ingrediente> getIngredientes() {
+    	return ingredientes;
     }
 
 }
