@@ -36,4 +36,5 @@ Meta: Ter pelo menos **75%** do projeto coberto por testes.
 ## Integrantes
 
 - Henrique César
+- Igor Pereira
 
