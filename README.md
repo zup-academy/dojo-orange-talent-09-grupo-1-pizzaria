@@ -32,3 +32,8 @@ Meta: Ter pelo menos **75%** do projeto coberto por testes.
 > 
 > Caminhos felizes e caminhos tristes precisam ser testados.
 > 
+
+## Integrantes
+
+- Henrique César
+
