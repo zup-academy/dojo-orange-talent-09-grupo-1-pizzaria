@@ -35,6 +35,7 @@ Meta: Ter pelo menos **75%** do projeto coberto por testes.
 
 ## Integrantes
 
-- Henrique César
+- Henrique Césargit pull
 - Igor Pereira
+- Raphael Feitosa
 
