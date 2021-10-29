@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import javax.transaction.Transactional;
 
+import br.com.zup.edu.pizzaria.ingredientes.IngredienteRepository;
 import com.fasterxml.jackson.core.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.*;
@@ -27,6 +28,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Transactional
 class NovoIngredienteControllerTest {
 
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
 
     @Autowired
     private MockMvc mvc;
@@ -45,6 +48,20 @@ class NovoIngredienteControllerTest {
            .andExpect(header().exists("Location"))
                 .andExpect(redirectedUrlPattern("/api/ingredientes/{spring:[0-9]+}"));
 
+    }
+
+    @Test
+    void naoDeveCadastrarIngredienteExistente() throws Exception {
+
+        NovoIngredienteRequest body = new NovoIngredienteRequest("Queijo muçarela", new BigDecimal("2.0"), 200);
+
+        ingredienteRepository.save(body.paraIngrediente());
+
+        MockHttpServletRequestBuilder request = post(URI)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(body));
+        mvc.perform(request)
+                .andExpect(status().isBadRequest());
     }
 
     @ParameterizedTest
@@ -90,5 +107,4 @@ class NovoIngredienteControllerTest {
         mvc.perform(request)
                 .andExpect(status().isBadRequest());
     }
-
 }
