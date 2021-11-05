@@ -39,11 +39,11 @@ public class Pizza {
     }
 
     private void calcularPreco() {
-        this.preco.add(PRECO_MASSA);
-        this.preco.add(PRECO_MAO_DE_OBRA);
-        this.ingredientes.stream()
+        this.preco = this.preco.add(PRECO_MASSA);
+        this.preco = this.preco.add(PRECO_MAO_DE_OBRA);
+        this.preco = this.ingredientes.stream()
                 .map(Ingrediente::getPreco)
-                .forEach(preco::add);
+                .reduce(this.preco, BigDecimal::add);
     }
 
     public Long getId() {
@@ -53,13 +53,12 @@ public class Pizza {
     public BigDecimal getPreco() {
         return preco;
     }
-    
+
     public List<Ingrediente> getIngredientes() {
-    	return ingredientes;
+        return ingredientes;
     }
 
     public BigDecimal getCustoFixo() {
         return PRECO_MAO_DE_OBRA.add(PRECO_MASSA);
     }
-
 }
