@@ -58,4 +58,8 @@ public class Pizza {
     	return ingredientes;
     }
 
+    public BigDecimal getCustoFixo() {
+        return PRECO_MAO_DE_OBRA.add(PRECO_MASSA);
+    }
+
 }

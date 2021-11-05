@@ -13,7 +13,7 @@ class NovoIngredienteRequest {
 
     @JsonProperty
     @NotBlank
-    @UniqueValue(domainAtribute = "nome",domainClass = Ingrediente.class)
+    @UniqueValue(domainAtribute = "nome", domainClass = Ingrediente.class)
     private String nome;
 
     @JsonProperty
@@ -28,7 +28,6 @@ class NovoIngredienteRequest {
     public NovoIngredienteRequest(String nome,
                                   BigDecimal preco,
                                   int quantidade) {
-
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
