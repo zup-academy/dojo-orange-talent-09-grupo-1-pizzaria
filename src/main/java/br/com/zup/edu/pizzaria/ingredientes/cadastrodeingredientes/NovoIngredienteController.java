@@ -35,5 +35,4 @@ class NovoIngredienteController {
         return ResponseEntity.created(location).build();
 
     }
-
 }

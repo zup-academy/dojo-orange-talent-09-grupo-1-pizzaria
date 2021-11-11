@@ -26,6 +26,9 @@ public class Pizza {
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     public Pizza(String sabor, List<Ingrediente> ingredientes) {
+        if(ingredientes == null || ingredientes.isEmpty()) {
+            throw new IllegalArgumentException("Lista de ingredientes é invalida!");
+        }
         this.sabor = sabor;
         this.ingredientes = ingredientes;
         calcularPreco();

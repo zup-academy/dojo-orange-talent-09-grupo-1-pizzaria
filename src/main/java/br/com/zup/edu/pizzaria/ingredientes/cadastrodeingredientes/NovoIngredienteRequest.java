@@ -38,6 +38,4 @@ class NovoIngredienteRequest {
 
         return new Ingrediente(nome, quantidade, preco);
     }
-
-
 }
