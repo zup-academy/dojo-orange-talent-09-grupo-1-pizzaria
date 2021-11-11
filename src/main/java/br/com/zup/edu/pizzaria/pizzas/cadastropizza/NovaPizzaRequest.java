@@ -1,5 +1,6 @@
 package br.com.zup.edu.pizzaria.pizzas.cadastropizza;
 
+import br.com.zup.edu.pizzaria.exceptions.*;
 import br.com.zup.edu.pizzaria.ingredientes.Ingrediente;
 import br.com.zup.edu.pizzaria.ingredientes.IngredienteRepository;
 import br.com.zup.edu.pizzaria.pizzas.Pizza;
@@ -32,9 +33,11 @@ public class NovaPizzaRequest {
     }
 
     public Pizza paraPizza(IngredienteRepository repository) {
+        for (Long ingredienteId : ingredientes)
+            if (!repository.existsById(ingredienteId))
+                throw new IngredienteNaoExistenteException(ingredienteId.toString());
 
         List<Ingrediente> ingredientes = repository.findAllById(this.ingredientes);
-
         return new Pizza(sabor, ingredientes);
     }
 

@@ -1,33 +1,24 @@
 package br.com.zup.edu.pizzaria.pizzas;
 
-import br.com.zup.edu.pizzaria.ingredientes.Ingrediente;
-import br.com.zup.edu.pizzaria.ingredientes.IngredienteRepository;
-import br.com.zup.edu.pizzaria.pizzas.cadastropizza.NovaPizzaRequest;
+import br.com.zup.edu.pizzaria.ingredientes.*;
+import br.com.zup.edu.pizzaria.pizzas.cadastropizza.*;
+import com.fasterxml.jackson.databind.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.test.autoconfigure.web.servlet.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.http.*;
+import org.springframework.test.web.servlet.*;
+import org.springframework.test.web.servlet.request.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.NullSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import javax.transaction.*;
+import java.math.*;
+import java.util.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.transaction.Transactional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.math.BigDecimal;
-import java.util.List;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -83,8 +74,7 @@ class NovaPizzaControllerTest {
 	}
 	
 	@ParameterizedTest
-	@NullSource
-	@MethodSource("retornaListaVazia")
+	@NullAndEmptySource
 	void naoDeveCadastrarPizzaSemIngredientes(List<Long> ingredientes) throws Exception {
 		NovaPizzaRequest body = new NovaPizzaRequest("Calabresa", ingredientes);
 		
@@ -92,6 +82,14 @@ class NovaPizzaControllerTest {
 				.content(new ObjectMapper().writeValueAsString(body));
 		
 		mvc.perform(request).andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void naoDeveCadastrarPizzaComIngredientesInvalidos() throws Exception {
+		NovaPizzaRequest body = new NovaPizzaRequest("Calabresa", List.of(100L, 500L));
+		MockHttpServletRequestBuilder request = post(URI).contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(body));
+		mvc.perform(request).andExpect(status().isUnprocessableEntity());
 	}
 
 }
